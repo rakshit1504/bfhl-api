@@ -16,17 +16,25 @@ const isDigits = s => /^[+-]?\d+$/.test(s);
 const isAlpha = s => /^[A-Za-z]+$/.test(s);
 const toAltCaps = arr => {
   let out = "";
-  for (let i = 0; i < arr.length; i++) out += i % 2 === 0 ? arr[i].toUpperCase() : arr[i].toLowerCase();
+  for (let i = 0; i < arr.length; i++) {
+    out += i % 2 === 0 ? arr[i].toUpperCase() : arr[i].toLowerCase();
+  }
   return out;
 };
 
-app.get("/", (req, res) => res.status(200).json({ status: "ok", route: "/bfhl" }));
+// Basic GET /bfhl (needed for form submission check)
+app.get("/bfhl", (req, res) => {
+  res.status(200).json({ operation_code: 1 });
+});
 
+// Main POST /bfhl logic
 app.post("/bfhl", (req, res) => {
   try {
     const body = req.body || {};
     const data = Array.isArray(body.data) ? body.data : null;
-    if (!data) return res.status(400).json({ is_success: false, error: "invalid_payload" });
+    if (!data) {
+      return res.status(400).json({ is_success: false, error: "invalid_payload" });
+    }
 
     const even_numbers = [];
     const odd_numbers = [];
@@ -70,4 +78,6 @@ app.post("/bfhl", (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
