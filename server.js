@@ -22,12 +22,10 @@ const toAltCaps = arr => {
   return out;
 };
 
-// Basic GET /bfhl (needed for form submission check)
 app.get("/bfhl", (req, res) => {
   res.status(200).json({ operation_code: 1 });
 });
 
-// Main POST /bfhl logic
 app.post("/bfhl", (req, res) => {
   try {
     const body = req.body || {};
@@ -81,3 +79,4 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
